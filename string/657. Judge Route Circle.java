@@ -14,19 +14,18 @@
 
 class Solution {
     public boolean judgeCircle(String moves) {
-        float x = 0, y = 0;
+        int x = 0, y = 0;
 
-        for (int i = 0; i < moves.length(); i++) {
-            char move = moves.charAt(i);
-
-            if (move == 'R') {
-                x += 1;
-            } else if (move == 'L') {
-                x -= 1;
-            } else if (move == 'U') {
-                y += 1;
-            } else if (move == 'D') {
-                y -= 1;
+        for (char move : moves.toCharArray()) {
+            switch (move) {
+                case 'R':
+                    x++; break;
+                case 'L':
+                    x--; break;
+                case 'U':
+                    y++; break;
+                case 'D':
+                    y--; break;
             }
         }
 
