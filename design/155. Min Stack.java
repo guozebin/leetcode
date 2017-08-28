@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 
 // Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
@@ -17,38 +18,45 @@ import java.util.List;
 // minStack.getMin();   --> Returns -2.
 
 class MinStack {
+    private int capcaity;
     private int min;
-    private List<Integer> value;
+    private int value[];
+    private int index;
 
     /** initialize your data structure here. */
     public MinStack() {
-        value = new ArrayList<>();
-        min = Integer.MAX_VALUE;
+        value = new int[capcaity = 0x10];
+        index = 0;
+        min = 0x7fffffff;
     }
 
     public void push(int x) {
+        if (index + 1 > capcaity) {
+            value =  Arrays.copyOf(value, capcaity <<= 1);
+        }
+        value[index++] = x;
         if (min > x) {
             min = x;
         }
-        value.add(x);
     }
 
     public void pop() {
-        if (!value.isEmpty()) {
-            int top = value.remove(value.size() - 1);
-            if (top == min) {
-                min = Integer.MAX_VALUE;
-                for (Integer x : value) {
-                    if (min > x) {
-                        min = x;
-                    }
+        if (index == 0) {
+            return;
+        }
+        int top = value[--index];
+        if (top == min) {
+            min = 0x7fffffff;
+            for (int i = 0; i < index; i++) {
+                if (min > value[i]) {
+                    min = value[i];
                 }
             }
         }
     }
 
     public int top() {
-        return value.get(value.size() - 1);
+        return value[index - 1];
     }
 
     public int getMin() {
