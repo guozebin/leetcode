@@ -1,11 +1,12 @@
 public class Solution {
     public String reverseString(String s) {
-        StringBuilder ret = new StringBuilder(s.length());
+        char ret[] = new char[s.length()];
+        int i = s.length();
 
-        for (int i = s.length() - 1; i > - 1; --i) {
-            ret.append(s.charAt(i));
+        for (char c : s.toCharArray()) {
+            ret[--i] = c;
         }
 
-        return ret.toString();
+        return String.valueOf(ret);
     }
 }
