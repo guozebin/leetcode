@@ -22,7 +22,7 @@ class PeekingIterator implements Iterator<Integer> {
     public PeekingIterator(Iterator<Integer> iterator) {
         // initialize any member here.
         this.index = -1;
-        values = new ArrayList<>(0x20);
+        values = new ArrayList<>(0x80);
 
         while (iterator.hasNext()) {
             values.add(iterator.next());
