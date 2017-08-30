@@ -1,6 +1,8 @@
+import java.util.Iterator;
+
 //
-// Given an Iterator class interface with methods: next() and hasNext(), 
-// design and implement a PeekingIterator that support the peek() operation 
+// Given an Iterator class interface with methods: next() and hasNext(),
+// design and implement a PeekingIterator that support the peek() operation
 // -- it essentially peek() at the element that will be returned by the next call to next().
 //
 // Here is an example. Assume that the iterator is initialized to the beginning of the list: [1, 2, 3].
@@ -16,33 +18,38 @@
 // Java Iterator interface reference:
 // https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 class PeekingIterator implements Iterator<Integer> {
-    private int index;
-    private ArrayList<Integer> values;
+    private Iterator<Integer> iterator;
+    private boolean isCallPeek;
+    private Integer lastNext;
 
     public PeekingIterator(Iterator<Integer> iterator) {
         // initialize any member here.
-        this.index = -1;
-        values = new ArrayList<>(0x80);
-
-        while (iterator.hasNext()) {
-            values.add(iterator.next());
-        }
+        this.iterator = iterator;
     }
 
     // Returns the next element in the iteration without advancing the iterator.
     public Integer peek() {
-        return values.get(index + 1);
+        if (!isCallPeek) {
+            lastNext = next();
+            isCallPeek = true;
+        }
+        return lastNext;
     }
 
     // hasNext() and next() should behave the same as in the Iterator interface.
     // Override them if needed.
     @Override
     public Integer next() {
-        return values.get(++index);
+        if (isCallPeek) {
+            isCallPeek = false;
+            return lastNext;
+        }
+
+        return iterator.next();
     }
 
     @Override
     public boolean hasNext() {
-        return index + 1 < values.size();
+        return isCallPeek || iterator.hasNext();
     }
 }
