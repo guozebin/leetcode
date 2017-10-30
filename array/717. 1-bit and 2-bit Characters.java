@@ -19,33 +19,26 @@
 // 1 <= len(bits) <= 1000.
 // bits[i] is always 0 or 1.
 //
-public class Solution {
+class Solution {
     private int skip(int[] bits, int pos1, int pos2) {
         if (bits.length > pos2) {
-            if (bits[pos1] != 0) {
+            if (bits[pos1] != 0)
                 return 2;
-            }
         }
-        if (bits[pos1] != 1) {
-            return 1;
-        }
-        return 0;
+
+        return 1;
     }
 
     public boolean isOneBitCharacter(int[] bits) {
-        int i = 0, step = 0;
+        int i = 0, step = 0, len = bits.length;
 
-        for (; i < bits.length; i += step) {
+        for (; i < len; i += step) {
             step = skip(bits, i, i + 1);
         }
+        if (i - step == len - 2) {
+            return bits[len - 1] != 0 && bits[len - 2] != 0;
+        }
 
-        if (i - step == bits.length - 2)
-            return bits[bits.length - 1] != 0 && bits[bits.length - 2] != 0;
-        return bits[bits.length - 1] == 0;
-    }
-
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        System.out.println(s.isOneBitCharacter(new int[] { 1, 1, 1, 0 }));
+        return bits[len - 1] == 0;
     }
 }
